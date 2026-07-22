@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>URL Kısaltıcı</title>
+  <!-- Tarayici aksi halde /favicon.ico ister; bu istek kisa kod sanilip
+       404 doner ve konsolu kirletir. Bos data URI istegi hic yaptirmaz. -->
+  <link rel="icon" href="data:," />
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+
+  <!-- ================= Giris / Kayit ================= -->
+  <main id="auth-view" class="auth" hidden>
+    <div class="auth-card">
+      <p class="brand">URL<span>Kısaltıcı</span></p>
+
+      <div class="tabs" role="tablist">
+        <button type="button" class="tab is-active" data-mode="login" role="tab" aria-selected="true">Giriş yap</button>
+        <button type="button" class="tab" data-mode="register" role="tab" aria-selected="false">Kayıt ol</button>
+      </div>
+
+      <form id="auth-form" novalidate>
+        <label for="auth-email">E-posta</label>
+        <input id="auth-email" name="email" type="email" autocomplete="email" required />
+
+        <label for="auth-password">Parola</label>
+        <input id="auth-password" name="password" type="password" autocomplete="current-password" required />
+        <p class="hint" id="password-hint" hidden>En az 8 karakter.</p>
+
+        <p class="form-error" id="auth-error" role="alert" hidden></p>
+
+        <button type="submit" class="btn primary" id="auth-submit">Giriş yap</button>
+      </form>
+    </div>
+  </main>
+
+  <!-- ================= Uygulama ================= -->
+  <div id="app-view" hidden>
+    <header class="topbar">
+      <p class="brand">URL<span>Kısaltıcı</span></p>
+      <div class="topbar-right">
+        <span class="who" id="current-email"></span>
+        <button type="button" class="btn ghost" id="logout">Çıkış</button>
+      </div>
+    </header>
+
+    <main class="page">
+
+      <section class="panel create">
+        <h1>Yeni kısa link</h1>
+        <form id="create-form" novalidate>
+          <div class="field">
+            <label for="original-url">Uzun adres</label>
+            <input id="original-url" name="originalUrl" type="url"
+                   placeholder="https://ornek.com/cok/uzun/bir/adres" required />
+          </div>
+
+          <details class="advanced">
+            <summary>Gelişmiş</summary>
+            <div class="advanced-grid">
+              <div class="field">
+                <label for="custom-alias">Özel kod <span class="opt">isteğe bağlı</span></label>
+                <input id="custom-alias" name="customAlias" type="text"
+                       placeholder="kampanya-2026" pattern="[A-Za-z0-9_-]{3,16}" />
+                <p class="hint">3–16 karakter; harf, rakam, <code>-</code> ve <code>_</code>.</p>
+              </div>
+              <div class="field">
+                <label for="expires-at">Son kullanma <span class="opt">isteğe bağlı</span></label>
+                <input id="expires-at" name="expiresAt" type="datetime-local" />
+                <p class="hint">Boş bırakılırsa link süresiz olur.</p>
+              </div>
+            </div>
+          </details>
+
+          <p class="form-error" id="create-error" role="alert" hidden></p>
+
+          <button type="submit" class="btn primary" id="create-submit">Kısalt</button>
+        </form>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Linklerim</h2>
+          <span class="count" id="link-count"></span>
+        </div>
+
+        <p class="empty" id="empty-state" hidden>
+          Henüz link oluşturmadın. Yukarıdaki alana bir adres yapıştırıp başlayabilirsin.
+        </p>
+
+        <ul class="links" id="link-list"></ul>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+  <script src="/app.js"></script>
+</body>
+</html>
